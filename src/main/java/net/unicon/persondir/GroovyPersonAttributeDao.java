@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jasig.services.persondir.IPersonAttributeDao;
 import org.jasig.services.persondir.IPersonAttributes;
 import org.jasig.services.persondir.support.BasePersonAttributeDao;
 import org.jasig.services.persondir.support.CaseInsensitiveNamedPersonImpl;
@@ -18,6 +19,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 
+/**
+ * An implementation of the {@link IPersonAttributeDao} that is able to resolve attributes
+ * based on an external groovy script. Changes to the groovy script are to be auto-detected.
+ * @author Misagh Moayyed
+ * @since 0.1
+ */
 public class GroovyPersonAttributeDao extends BasePersonAttributeDao {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     
