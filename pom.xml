@@ -66,7 +66,6 @@
     <properties>
         <github.global.server>github</github.global.server>
         <jdk.version>1.6</jdk.version>
-        <groovy.provider.selection>1.7</groovy.provider.selection>
         <servlet.version>2.5</servlet.version>
         <junit.version>4.11</junit.version>
         <commons-codec.version>1.7</commons-codec.version>
@@ -77,6 +76,7 @@
         <person.directory.version>1.5.1</person.directory.version>
         <grouper.client.version>2.1.0</grouper.client.version>
         <cas.addons.version>1.8</cas.addons.version>
+        <groovy.version>2.1.6</groovy.version>
     </properties>
 
     <reporting>
@@ -320,7 +320,15 @@
             <groupId>net.unicon.cas</groupId>
             <artifactId>cas-addons</artifactId>
             <version>${cas.addons.version}</version>
+            <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>${groovy.version}</version>
+            <scope>compile</scope>
+        </dependency>
+            
     </dependencies>
 
     <!-- Jasig CAS Repository -->
