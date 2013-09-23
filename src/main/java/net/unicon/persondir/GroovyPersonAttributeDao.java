@@ -81,7 +81,7 @@ public class GroovyPersonAttributeDao extends BasePersonAttributeDao {
                     this.groovyScriptExecutingMethodName, args);
             
             @SuppressWarnings("unchecked")
-            final Map<String, Object> personAttributesMap = (Map<String, Object>) groovyObject.invokeMethod("run", args);
+            final Map<String, Object> personAttributesMap = (Map<String, Object>) groovyObject.invokeMethod(this.groovyScriptExecutingMethodName, args);
             
             logger.debug("Creating person attributes with the username {} and attributes {}",
                     uid, personAttributesMap);
