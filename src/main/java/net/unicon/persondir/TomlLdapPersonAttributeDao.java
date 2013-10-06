@@ -9,6 +9,7 @@ import java.util.Map;
 
 import me.grison.jtoml.impl.Toml;
 
+import org.apache.commons.lang.StringUtils;
 import org.jasig.services.persondir.support.QueryType;
 import org.jasig.services.persondir.support.ldap.LdapPersonAttributeDao;
 import org.springframework.core.io.Resource;
@@ -46,35 +47,85 @@ public class TomlLdapPersonAttributeDao extends LdapPersonAttributeDao {
     }
 
     private void applyTomlConfigurationToDao(final TomlLdapConfiguration config) {
-        this.setBaseDN(config.getBaseDN());
-        this.setQueryAttributeMapping(config.getQueryAttributeMappings());
-        this.setQueryType(QueryType.valueOf(config.getQueryType()));
-        this.setRequireAllQueryAttributes(config.isRequireAllQueryAttributes());
-        this.setResultAttributeMapping(config.getResultAttributeMappings());
-        this.setUnmappedUsernameAttribute(config.getUnmappedUsernameAttribute());
-        this.setQueryTemplate(config.getQueryTemplate());
-        this.setUseAllQueryAttributes(config.isUseAllQueryAttributes());
-        
+        if (!StringUtils.isBlank(config.getBaseDN())) {
+            this.setBaseDN(config.getBaseDN());
+        }
+
+        if (config.getQueryAttributeMappings() != null) {
+            this.setQueryAttributeMapping(config.getQueryAttributeMappings());
+        }
+
+        if (!StringUtils.isBlank(config.getQueryType())) {
+            this.setQueryType(QueryType.valueOf(config.getQueryType()));
+        }
+
+        if (config.isRequireAllQueryAttributes() != null) {
+            this.setRequireAllQueryAttributes(config.isRequireAllQueryAttributes());
+        }
+
+        if (config.getResultAttributeMappings() != null) {
+            this.setResultAttributeMapping(config.getResultAttributeMappings());
+        }
+
+        if (!StringUtils.isBlank(config.getUnmappedUsernameAttribute())) {
+            this.setUnmappedUsernameAttribute(config.getUnmappedUsernameAttribute());
+        }
+
+        if (!StringUtils.isBlank(config.getQueryTemplate())) {
+            this.setQueryTemplate(config.getQueryTemplate());
+        }
+
+        if (config.isUseAllQueryAttributes() != null) {
+            this.setUseAllQueryAttributes(config.isUseAllQueryAttributes());
+        }
+
         final LdapContextSource ctxSource = new LdapContextSource();
-        ctxSource.setPooled(config.isPooled());
-        ctxSource.setBaseEnvironmentProperties(config.getBaseEnvironmentSettings());
-        ctxSource.setPassword(config.getPassword());
-        ctxSource.setUrls(config.getUrls().toArray(new String[] {}));
-        ctxSource.setUserDn(config.getUserDN());
-        ctxSource.setCacheEnvironmentProperties(config.isCacheEnvironmentProperties());
-        ctxSource.setReferral(config.getReferral());
-        
-       final LdapTemplate template = new LdapTemplate(ctxSource);
-       template.setIgnoreNameNotFoundException(config.isIgnoreNameNotFoundException());
-       template.setIgnorePartialResultException(config.isIgnorePartialResultException());
-       
-       this.setLdapTemplate(template);
+
+        if (config.isPooled() != null) {
+            ctxSource.setPooled(config.isPooled());
+        }
+
+        if (config.getBaseEnvironmentSettings() != null) {
+            ctxSource.setBaseEnvironmentProperties(config.getBaseEnvironmentSettings());
+        }
+
+        if (!StringUtils.isBlank(config.getPassword())) {
+            ctxSource.setPassword(config.getPassword());
+        }
+
+        if (config.getUrls() != null) {
+            ctxSource.setUrls(config.getUrls().toArray(new String[] {}));
+        }
+
+        if (!StringUtils.isBlank(config.getUserDN())) {
+            ctxSource.setUserDn(config.getUserDN());
+        }
+
+        if (config.isCacheEnvironmentProperties() != null) {
+            ctxSource.setCacheEnvironmentProperties(config.isCacheEnvironmentProperties());
+        }
+
+        if (!StringUtils.isBlank(config.getReferral())) {
+            ctxSource.setReferral(config.getReferral());
+        }
+
+        final LdapTemplate template = new LdapTemplate(ctxSource);
+
+        if (config.isIgnoreNameNotFoundException() != null) {
+            template.setIgnoreNameNotFoundException(config.isIgnoreNameNotFoundException());
+        }
+
+        if (config.isIgnorePartialResultException() != null) {
+            template.setIgnorePartialResultException(config.isIgnorePartialResultException());
+        }
+
+        this.setLdapTemplate(template);
     }
 
     private TomlLdapConfiguration buildTomlLdapConfiguration() throws Exception {
         try {
             final Toml toml = Toml.parse(this.tomlConfigFile.getFile());
-               
+
             final TomlLdapConfiguration config = toml.getAs("ldap", TomlLdapConfiguration.class);
             return config;
         } catch (final Exception e) {
@@ -106,8 +157,8 @@ public class TomlLdapPersonAttributeDao extends LdapPersonAttributeDao {
     public static final class TomlLdapConfiguration {
 
         private String baseDN;
-        private Boolean requireAllQueryAttributes;
-        private Boolean useAllQueryAttributes;
+        private Boolean requireAllQueryAttributes = false;
+        private Boolean useAllQueryAttributes = false;
         private Map<String, String> queryAttributeMappings;
         private Map<String, String> resultAttributeMappings;
         private String queryType;
@@ -122,7 +173,7 @@ public class TomlLdapPersonAttributeDao extends LdapPersonAttributeDao {
         private String referral;
         private Boolean ignoreNameNotFoundException;
         private Boolean ignorePartialResultException;
-        
+
         public String getBaseDN() {
             return this.baseDN;
         }

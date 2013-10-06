@@ -3,19 +3,21 @@ baseDN = "ou=people,dc=school,dc=edu"
 urls = ["ldap://ldap.server1.edu:389", "ldap://ldap.server2.edu:389"]
 userDN = "cn=authSearch,ou=adminaccounts,dc=school,dc=edu"
 password = "psw"
-referral = "follow"
-ignoreNameNotFoundException = false
-ignorePartialResultException = true
-requireAllQueryAttributes = true
 
 # Advanced settings
-pooled = false
-queryType = "AND"
-queryTemplate = "uid={0}"
-unmappedUsernameAttribute = "CN"
-cacheEnvironmentProperties = false
-useAllQueryAttributes = true
-        
+###################
+
+#pooled = false
+#queryTemplate = "uid={0}"
+#unmappedUsernameAttribute = "CN"
+#cacheEnvironmentProperties = false
+#useAllQueryAttributes = true
+#queryType = "AND"
+#referral = "follow"
+#ignoreNameNotFoundException = false
+#ignorePartialResultException = true
+#requireAllQueryAttributes = true
+       
 [ldap.queryAttributeMappings]
 username = "uid"
 

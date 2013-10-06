@@ -17,12 +17,9 @@ public class TomlLdapPersonAttributeDaoTests {
         final TomlLdapPersonAttributeDao dao = new TomlLdapPersonAttributeDao(tomlConfigFile);
         
         assertNotNull(dao.getBaseDN());
-        assertNotNull(dao.getQueryTemplate());
-        assertNotNull(dao.getUnmappedUsernameAttribute());
         assertNotNull(dao.getQueryAttributeMapping());
         assertNotNull(dao.getQueryType());
         assertNotNull(dao.getResultAttributeMapping());
-        
         assertNotNull(dao.getContextSource());
     }
 }
