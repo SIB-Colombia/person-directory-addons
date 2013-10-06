@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jasig.services.persondir.IPersonAttributeDao;
+import org.apache.commons.io.IOUtils;
 import org.jasig.services.persondir.IPersonAttributes;
 import org.jasig.services.persondir.support.BasePersonAttributeDao;
 import org.jasig.services.persondir.support.CaseInsensitiveNamedPersonImpl;
@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 
 /**
- * An implementation of the {@link IPersonAttributeDao} that is able to resolve attributes
+ * An implementation of the {@link org.jasig.services.persondir.IPersonAttributeDao} that is able to resolve attributes
  * based on an external groovy script. Changes to the groovy script are to be auto-detected.
  * @author Misagh Moayyed
  * @since 0.1
@@ -64,9 +64,10 @@ public class GroovyPersonAttributeDao extends BasePersonAttributeDao {
 
     @Override
     public IPersonAttributes getPerson(final String uid) {
+        GroovyClassLoader loader = null;
         try {
             final ClassLoader parent = getClass().getClassLoader();
-            final GroovyClassLoader loader = new GroovyClassLoader(parent);
+            loader = new GroovyClassLoader(parent);
             
             final Class<?> groovyClass = loader.parseClass(this.groovyScriptResource.getFile());
             logger.debug("Loaded groovy class {} from script {}", groovyClass.getSimpleName(),
@@ -81,7 +82,8 @@ public class GroovyPersonAttributeDao extends BasePersonAttributeDao {
                     this.groovyScriptExecutingMethodName, args);
             
             @SuppressWarnings("unchecked")
-            final Map<String, Object> personAttributesMap = (Map<String, Object>) groovyObject.invokeMethod(this.groovyScriptExecutingMethodName, args);
+            final Map<String, Object> personAttributesMap = (Map<String, Object>)
+                groovyObject.invokeMethod(this.groovyScriptExecutingMethodName, args);
             
             logger.debug("Creating person attributes with the username {} and attributes {}",
                     uid, personAttributesMap);
@@ -94,11 +96,13 @@ public class GroovyPersonAttributeDao extends BasePersonAttributeDao {
             return new NamedPersonImpl(uid, personAttributes);
         } catch (final Exception e) {
             logger.error(e.getMessage(), e); 
+        } finally {
+            IOUtils.closeQuietly(loader);
         }
         return null;
     }
 
-    private Map<String, List<Object>> stuffAttributesIntoListValues(Map<String, Object> personAttributesMap) {
+    private Map<String, List<Object>> stuffAttributesIntoListValues(final Map<String, Object> personAttributesMap) {
         final Map<String, List<Object>> personAttributes = new HashMap<String, List<Object>>();
         
         for (final String key : personAttributesMap.keySet()) {
@@ -113,12 +117,12 @@ public class GroovyPersonAttributeDao extends BasePersonAttributeDao {
     }
 
     @Override
-    public Set<IPersonAttributes> getPeople(Map<String, Object> query) {
+    public Set<IPersonAttributes> getPeople(final Map<String, Object> query) {
         throw new UnsupportedOperationException("This method is not implemented.");
     }
 
     @Override
-    public Set<IPersonAttributes> getPeopleWithMultivaluedAttributes(Map<String, List<Object>> query) {
+    public Set<IPersonAttributes> getPeopleWithMultivaluedAttributes(final Map<String, List<Object>> query) {
         return null;
     }
 

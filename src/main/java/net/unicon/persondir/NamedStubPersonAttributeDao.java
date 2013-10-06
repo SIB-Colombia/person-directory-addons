@@ -23,16 +23,16 @@ public class NamedStubPersonAttributeDao extends StubPersonAttributeDao {
         super();
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public NamedStubPersonAttributeDao(final Map backingMap) {
         super(backingMap);
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public Set<IPersonAttributes> getPeopleWithMultivaluedAttributes(final Map<String, List<Object>> query) {
+    public final Set<IPersonAttributes> getPeopleWithMultivaluedAttributes(final Map<String, List<Object>> query) {
 
-        final List list = query.get("username");
-        final String uid = list.get(0).toString();
-
+        final List<?> list = query.get("username");
         final Map m = new HashMap(this.getBackingMap());
 
         m.put("username", list);

@@ -328,6 +328,12 @@
             <version>${groovy.version}</version>
             <scope>compile</scope>
         </dependency>
+        
+        <dependency>
+          <groupId>me.grison</groupId>
+          <artifactId>jtoml</artifactId>
+          <version>1.0.0</version>
+        </dependency>
             
     </dependencies>
 

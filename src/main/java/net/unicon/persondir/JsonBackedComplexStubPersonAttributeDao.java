@@ -35,7 +35,7 @@ ApplicationListener<ResourceChangeDetectingEventNotifier.ResourceChangedEvent> {
 
     private final ObjectMapper jacksonObjectMapper = new ObjectMapper();
 
-    private final static Logger logger = LoggerFactory.getLogger(JsonBackedComplexStubPersonAttributeDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JsonBackedComplexStubPersonAttributeDao.class);
 
     private final Object synchronizationMonitor = new Object();
 
@@ -47,12 +47,14 @@ ApplicationListener<ResourceChangeDetectingEventNotifier.ResourceChangedEvent> {
      * Init method un-marshals JSON representation of the person attributes.
      */
     public void init() throws Exception {
+        /* If we get to this point, the JSON file is well-formed, but its structure does not map into
+         * PersonDir backingMap generic type - fail fast.
+         */
         try {
             unmarshalAndSetBackingMap();
-        }
-        //If we get to this point, the JSON file is well-formed, but its structure does not map into PersonDir backingMap generic type - fail fast.
-        catch (final ClassCastException ex) {
-            throw new BeanCreationException(String.format("The semantic structure of the person attributes JSON config is not correct. Please fix it in this resource: [%s]",
+        } catch (final ClassCastException ex) {
+            throw new BeanCreationException(String.format("The semantic structure of the person attributes"
+                    + "JSON config is not correct. Please fix it in this resource: [%s]",
                     this.personAttributesConfigFile.getURI()));
         }
     }
@@ -72,9 +74,8 @@ ApplicationListener<ResourceChangeDetectingEventNotifier.ResourceChangedEvent> {
                 //Not our resource. Just get out of here.
                 return;
             }
-        }
-        catch (final Throwable e) {
-            logger.error("An exception is caught while trying to access JSON resource: ", e);
+        } catch (final Throwable e) {
+            LOGGER.error("An exception is caught while trying to access JSON resource: ", e);
             return;
         }
 
@@ -85,9 +86,8 @@ ApplicationListener<ResourceChangeDetectingEventNotifier.ResourceChangedEvent> {
         }
         try {
             unmarshalAndSetBackingMap();
-        }
-        catch (final Throwable ex) {
-            logger.error("An exception is caught during reloading of the JSON configuration:", ex);
+        } catch (final Throwable ex) {
+            LOGGER.error("An exception is caught during reloading of the JSON configuration:", ex);
             //Restore the old state. If the error occurs at this stage, well nothing we could do here. Just propagate the exception.
             synchronized (this.synchronizationMonitor) {
                 super.setBackingMap(savedBackingMap);
@@ -97,10 +97,10 @@ ApplicationListener<ResourceChangeDetectingEventNotifier.ResourceChangedEvent> {
 
     @SuppressWarnings("unchecked")
     private void unmarshalAndSetBackingMap() throws Exception {
-        logger.info("Un-marshaling person attributes from the config file [{}] ...", this.personAttributesConfigFile.getFile());
+        LOGGER.info("Un-marshaling person attributes from the config file [{}] ...", this.personAttributesConfigFile.getFile());
         final Map<String, Map<String, List<Object>>> backingMap = this.jacksonObjectMapper.readValue(
                 this.personAttributesConfigFile.getFile(), Map.class);
-        logger.debug("Person attributes have been successfully read into a Map<String, Map<String, List<Object>>>: {}", backingMap);
+        LOGGER.debug("Person attributes have been successfully read into a Map<String, Map<String, List<Object>>>: {}", backingMap);
         synchronized (this.synchronizationMonitor) {
             super.setBackingMap(backingMap);
         }
