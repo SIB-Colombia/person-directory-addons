@@ -10,7 +10,7 @@
     <description>A collection of useful add-ons for the Person Directory Framework</description>
     <groupId>net.unicon.persondir</groupId>
     <artifactId>persondir-addons</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.2</version>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <inceptionYear>2013</inceptionYear>
