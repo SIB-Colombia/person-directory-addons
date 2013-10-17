@@ -3,8 +3,7 @@ package net.unicon.persondir;
 import java.util.List;
 import java.util.Map;
 
-import net.unicon.cas.addons.support.ResourceChangeDetectingEventNotifier;
-
+import net.unicon.springframework.addons.resource.ResourceChangeDetectingEventNotifier;
 import org.jasig.services.persondir.support.ComplexStubPersonAttributeDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

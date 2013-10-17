@@ -77,6 +77,7 @@
         <grouper.client.version>2.1.0</grouper.client.version>
         <cas.addons.version>1.8</cas.addons.version>
         <groovy.version>2.1.6</groovy.version>
+        <springframework-addons.version>0.1</springframework-addons.version>
     </properties>
 
     <reporting>
@@ -220,6 +221,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
@@ -238,13 +246,6 @@
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
             <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -312,20 +313,6 @@
         </dependency>
 
         <dependency>
-            <groupId>edu.internet2.middleware.grouper</groupId>
-            <artifactId>grouperClient</artifactId>
-            <version>${grouper.client.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.unicon.cas</groupId>
-            <artifactId>cas-addons</artifactId>
-            <version>${cas.addons.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
             <version>${groovy.version}</version>
@@ -336,6 +323,13 @@
           <groupId>me.grison</groupId>
           <artifactId>jtoml</artifactId>
           <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.unicon.springframework</groupId>
+            <artifactId>springframework-addons</artifactId>
+            <version>${springframework-addons.version}</version>
+            <scope>compile</scope>
         </dependency>
             
     </dependencies>
