@@ -12,7 +12,7 @@
         <level value="WARN" />
     </logger>
 
-    <logger name="net.unicon.springframework.addons">
+    <logger name="net.unicon.persondir">
         <level value="DEBUG" />
     </logger>
 
