@@ -79,6 +79,7 @@
         <grouper.client.version>2.1.0</grouper.client.version>
         <cas.addons.version>1.8</cas.addons.version>
         <groovy.version>2.1.6</groovy.version>
+        <mongodb.version>3.0.4</mongodb.version>
         <springframework-addons.version>0.1</springframework-addons.version>
     </properties>
 
@@ -333,6 +334,12 @@
             <artifactId>groovy-all</artifactId>
             <version>${groovy.version}</version>
             <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>${mongodb.version}</version>
         </dependency>
         
         <dependency>
